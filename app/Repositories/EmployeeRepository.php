@@ -18,11 +18,11 @@ class EmployeeRepository implements EmployeeRepositoryInterface
 
     public function find($id)
     {
-        if (null == $payment = $this->model->find($id))
+        if (null == $employee = $this->model->find($id))
         {
             throw new ModelNotFoundException("Trabajador no encontrado");
         }
-        return $payment;
+        return $employee;
     }
 
     public function create(array $data)
