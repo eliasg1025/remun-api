@@ -11,4 +11,9 @@ class Payment extends Model
     protected $collection = "payments";
     protected $primaryKey = 'id';
     protected $fillable = ['id', 'mes', 'anio', 'empresa_id', 'zona_id', 'monto', 'trabajador_id'];
+
+    public function employee()
+    {
+        return $this->belongsTo(Employee::class);
+    }
 }

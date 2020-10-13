@@ -4,7 +4,7 @@
 namespace App\Repositories;
 
 
-interface PaymentRepositoryInterface extends ImportableRepository
+interface PaymentRepositoryInterface extends ImportableRepositoryInterface
 {
     public function all();
     public function find($id);

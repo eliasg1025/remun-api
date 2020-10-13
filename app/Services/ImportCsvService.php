@@ -2,15 +2,15 @@
 
 namespace App\Services;
 
-use App\Repositories\ImportableRepository;
+use App\Repositories\ImportableRepositoryInterface;
 use Exception;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Rap2hpoutre\FastExcel\FastExcel;
 
-class ImportService
+class ImportCsvService
 {
-    public ImportableRepository $repository;
+    public ImportableRepositoryInterface $repository;
 
 
     public function __construct($repository)

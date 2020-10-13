@@ -15,7 +15,12 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->bind(
             'App\Repositories\PaymentRepositoryInterface',
-            'App\Repositories\PaymentRepository'
+            'App\Repositories\PaymentRepository',
+        );
+
+        $this->app->bind(
+            'App\Repositories\EmployeeRepositoryInterface',
+            'App\Repositories\EmployeeRepository'
         );
     }
 

@@ -20,7 +20,7 @@ class EmployeeRepository implements EmployeeRepositoryInterface
     {
         if (null == $payment = $this->model->find($id))
         {
-            throw new ModelNotFoundException("Liquidación no encontrada");
+            throw new ModelNotFoundException("Trabajador no encontrado");
         }
         return $payment;
     }
@@ -32,6 +32,6 @@ class EmployeeRepository implements EmployeeRepositoryInterface
 
     public function update(array $data, $id)
     {
-        return $this->model->where('id', $id)->update($data);
+        return $this->model->where('id', $id)->update($data, ['upsert' => true]);
     }
 }
