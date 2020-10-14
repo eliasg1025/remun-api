@@ -7,7 +7,7 @@ namespace App\Repositories;
 use App\Models\PaymentDetail;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
-class PaymenDetailRepository implements PaymentDetailRepositoryInterface
+class PaymentDetailRepository implements PaymentDetailRepositoryInterface
 {
     protected $model;
 
@@ -27,11 +27,11 @@ class PaymenDetailRepository implements PaymentDetailRepositoryInterface
 
     public function create(array $data)
     {
-        // TODO: Implement create() method.
+        return $this->model->create($data);
     }
 
     public function update(array $data, $id)
     {
-        // TODO: Implement update() method.
+        return $this->model->where('id', $id)->update($data, ['upsert' => true]);
     }
 }

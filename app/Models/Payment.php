@@ -16,4 +16,9 @@ class Payment extends Model
     {
         return $this->belongsTo(Employee::class);
     }
+
+    public function details()
+    {
+        return $this->hasMany(PaymentDetail::class, 'liquidacion_id', 'id');
+    }
 }

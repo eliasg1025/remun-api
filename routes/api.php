@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\{ PaymentController, EmployeeController };
+use App\Http\Controllers\{ PaymentController, EmployeeController, PaymentDetailController };
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -37,7 +37,8 @@ Route::group(['prefix' => 'users'], function () {
 });
 
 Route::group(['prefix' => 'payments-detail'], function() {
-
+    Route::get('/{id}', [PaymentDetailController::class, 'show']);
+    Route::post('/import', [PaymentDetailController::class, 'import']);
 });
 
 Route::group(['prefix' => 'companies'], function () {

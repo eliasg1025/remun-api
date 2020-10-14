@@ -22,6 +22,11 @@ class AppServiceProvider extends ServiceProvider
             'App\Repositories\EmployeeRepositoryInterface',
             'App\Repositories\EmployeeRepository'
         );
+
+        $this->app->bind(
+            'App\Repositories\PaymentDetailRepositoryInterface',
+            'App\Repositories\PaymentDetailRepository'
+        );
     }
 
     /**

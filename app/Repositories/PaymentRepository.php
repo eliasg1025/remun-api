@@ -27,6 +27,7 @@ class PaymentRepository implements PaymentRepositoryInterface
         {
             throw new ModelNotFoundException("Liquidación no encontrada");
         }
+        $payment->details;
         return $payment;
     }
 
