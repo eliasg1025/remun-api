@@ -19,7 +19,7 @@ class EmployeeController extends Controller
 
     public function payments(Request $request)
     {
-        $employeeId = $request->user['employee']->id;
+        $employeeId = $request->user->employee->id;
         $employee = $this->repository->find($employeeId);
 
         foreach ($employee->payments as $payment) {
