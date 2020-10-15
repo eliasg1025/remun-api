@@ -10,10 +10,17 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $result = User::login($request->all());
+
+        if ($result['error']) {
+            return response()->json([
+                'message' => $result['message'],
+            ], 401);
+        }
+
         return response()->json([
             'message' => $result['message'],
             'token'   => $result['token']
-        ], $result['error'] ? 400 : 200);
+        ], 200);
     }
 
     public function logout(Request $request)
