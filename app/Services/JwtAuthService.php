@@ -20,7 +20,6 @@ class JwtAuthService
             return [
                 'error'   => true,
                 'message' => 'El usuario no existe',
-                'token' => false
             ];
         }
 
