@@ -14,11 +14,11 @@ class Employee extends Model
 
     public function users()
     {
-        return $this->hasMany(User::class, 'trabajador_id', 'id');
+        return $this->hasMany(User::class, 'employee_id', 'id');
     }
 
     public function payments()
     {
-        return $this->hasMany(Payment::class, 'trabajador_id', 'id');
+        return $this->hasMany(Payment::class, 'employee_id', 'id');
     }
 }

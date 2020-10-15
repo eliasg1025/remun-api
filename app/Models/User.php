@@ -31,7 +31,7 @@ class User extends Model
 
     public function employee()
     {
-        return $this->belongsTo(Employee::class, 'trabajador_id', 'id');
+        return $this->belongsTo(Employee::class, 'employee_id', 'id');
     }
 
     public static function login($data)

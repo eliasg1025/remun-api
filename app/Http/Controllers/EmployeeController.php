@@ -22,6 +22,17 @@ class EmployeeController extends Controller
         return $this->repository->find($employee);
     }
 
+    public function info($employee)
+    {
+        $instance = $this->repository->find($employee);
+
+        foreach ($instance->payments as $payment) {
+            $payment->details;
+        }
+
+        return $instance;
+    }
+
     public function store(Request $request)
     {
         return $this->repository->create($request->all());
