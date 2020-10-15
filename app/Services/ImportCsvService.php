@@ -34,7 +34,7 @@ class ImportCsvService
                 storage_path('app/public') . $relativePath,
                 function ($line)
                 {
-                    return $this->repository->create($line);
+                    return $this->repository->update($line, $line['id']);
                 }
             );
 

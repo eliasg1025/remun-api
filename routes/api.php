@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\{ PaymentController, EmployeeController, PaymentDetailController };
+use App\Http\Controllers\{ PaymentController, EmployeeController, PaymentDetailController, UserController};
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -33,7 +33,7 @@ Route::group(['prefix' => 'employees'], function () {
 });
 
 Route::group(['prefix' => 'users'], function () {
-
+    Route::post('/sync', [UserController::class, 'sync']);
 });
 
 Route::group(['prefix' => 'payments-detail'], function() {

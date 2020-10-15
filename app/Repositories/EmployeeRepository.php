@@ -16,6 +16,11 @@ class EmployeeRepository implements EmployeeRepositoryInterface
         $this->model = $employee;
     }
 
+    public function all()
+    {
+        return $this->model->all();
+    }
+
     public function find($id)
     {
         if (null == $employee = $this->model->find($id))
@@ -32,6 +37,7 @@ class EmployeeRepository implements EmployeeRepositoryInterface
 
     public function update(array $data, $id)
     {
-        return $this->model->where('id', $id)->update($data, ['upsert' => true]);
+        //return $this->model->where('id', $id)->update($data);
+        return $this->model->updateOrInsert(['id' => $id], $data);
     }
 }

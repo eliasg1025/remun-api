@@ -27,7 +27,6 @@ class PaymentRepository implements PaymentRepositoryInterface
         {
             throw new ModelNotFoundException("Liquidación no encontrada");
         }
-        $payment->details;
         return $payment;
     }
 
@@ -38,6 +37,7 @@ class PaymentRepository implements PaymentRepositoryInterface
 
     public function update(array $data, $id)
     {
-        return $this->model->where('id', $id)->update($data, ['upsert' => true]);
+        //return $this->model->where('id', $id)->update($data);
+        return $this->model->updateOrInsert(['id' => $id], $data);
     }
 }

@@ -2,15 +2,20 @@
 
 namespace App\Models;
 
-use Jenssegers\Mongodb\Eloquent\Model;
+use Illuminate\Database\Eloquent\Model;
 
 class Employee extends Model
 {
     public $incrementing = false;
     public $timestamps = false;
-    protected $collection = "employees";
+    protected $table = "employees";
     protected $primaryKey = 'id';
     protected $fillable = ['id', 'nombre', 'apellido_paterno', 'apellido_materno', 'numero_cuenta', 'banco'];
+
+    public function users()
+    {
+        return $this->hasMany(User::class, 'trabajador_id', 'id');
+    }
 
     public function payments()
     {

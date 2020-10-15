@@ -32,6 +32,7 @@ class PaymentDetailRepository implements PaymentDetailRepositoryInterface
 
     public function update(array $data, $id)
     {
-        return $this->model->where('id', $id)->update($data, ['upsert' => true]);
+        //return $this->model->where('id', $id)->update($data);
+        return $this->model->updateOrInsert(['id' => $id], $data);
     }
 }
