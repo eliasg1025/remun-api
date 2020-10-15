@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\{ PaymentController, EmployeeController, PaymentDetailController, UserController};
+use App\Http\Controllers\{ PaymentController, EmployeeController, PaymentDetailController, UserController, AuthController };
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -18,6 +18,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::group(['prefix' => 'auth'], function() {
+    Route::post('login', [AuthController::class,'login']);
+    Route::post('logout', [AuthController::class,'logout']);
+});
 
 Route::group(['prefix' => 'payments'], function() {
     Route::get('/', [PaymentController::class, 'all']);
@@ -28,7 +32,7 @@ Route::group(['prefix' => 'payments'], function() {
 
 Route::group(['prefix' => 'employees'], function () {
     Route::post('/', [EmployeeController::class, 'store']);
-    Route::get('/{id}', [EmployeeController::class, 'show'])->where('id', '[0-9]+');
+    Route::get('/{id}', [EmployeeController::class, 'show'])->where('id', '[0-9]+')->middleware('api.auth');
     Route::post('/import', [EmployeeController::class, 'import']);
 });
 
