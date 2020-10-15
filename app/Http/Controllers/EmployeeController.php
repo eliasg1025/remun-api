@@ -17,6 +17,17 @@ class EmployeeController extends Controller
         $this->importService = new ImportCsvService($this->repository);
     }
 
+    public function payments(Request $request)
+    {
+        $employeeId = $request->user['employee']->id;
+        $employee = $this->repository->find($employeeId);
+
+        foreach ($employee->payments as $payment) {
+            $payment->details;
+        }
+        return $employee;
+    }
+
     public function show($employee)
     {
         return $this->repository->find($employee);

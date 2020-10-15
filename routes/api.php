@@ -31,6 +31,7 @@ Route::group(['prefix' => 'payments'], function() {
 });
 
 Route::group(['prefix' => 'employees'], function () {
+    Route::get('/', [EmployeeController::class, 'payments'])->middleware('api.auth');
     Route::post('/', [EmployeeController::class, 'store']);
     Route::get('/{id}', [EmployeeController::class, 'show'])->where('id', '[0-9]+')->middleware('api.auth');
     Route::get('/{id}/info', [EmployeeController::class, 'info'])->where('id', '[0-9]+');
