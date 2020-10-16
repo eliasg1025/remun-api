@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class User extends Model
 {
     public $timestamps = false;
-    protected $table = "users";
+    protected $table = "usuarios";
     protected $primaryKey = 'id';
 
     /**
@@ -18,7 +18,7 @@ class User extends Model
     protected $fillable = [
         'username',
         'password',
-        'employee_id'
+        'trabajador_id'
     ];
 
     /**
@@ -31,7 +31,7 @@ class User extends Model
 
     public function employee()
     {
-        return $this->belongsTo(Employee::class, 'employee_id', 'id');
+        return $this->belongsTo(Employee::class, 'trabajador_id', 'id');
     }
 
     public static function login($data)

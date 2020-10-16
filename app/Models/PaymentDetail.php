@@ -8,7 +8,7 @@ class PaymentDetail extends Model
 {
     public $incrementing = false;
     public $timestamps = false;
-    protected $table = "payments_detail";
+    protected $table = "detalles_pago";
     protected $primaryKey = 'id';
     protected $fillable = ['id', 'liquidacion_id', 'concepto', 'monto_haber_descuento', 'tipo_haber_descuento'];
 }

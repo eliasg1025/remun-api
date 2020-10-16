@@ -8,7 +8,7 @@ class Payment extends Model
 {
     public $incrementing = false;
     public $timestamps = false;
-    protected $table = "payments";
+    protected $table = "anticipos";
     protected $primaryKey = 'id';
     protected $fillable = ['id', 'mes', 'anio', 'empresa_id', 'zona_id', 'monto', 'trabajador_id'];
 
@@ -19,6 +19,6 @@ class Payment extends Model
 
     public function details()
     {
-        return $this->hasMany(PaymentDetail::class, 'payment_id', 'id');
+        return $this->hasMany(PaymentDetail::class, 'pago_id', 'id');
     }
 }
