@@ -3,18 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Repositories\EmployeeRepositoryInterface;
+use App\Services\AsistenciasService;
 use App\Services\ImportCsvService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class EmployeeController extends Controller
 {
     private $repository;
     private ImportCsvService $importService;
+    private AsistenciasService $asistenciasService;
 
     public function __construct(EmployeeRepositoryInterface $repository)
     {
         $this->repository = $repository;
         $this->importService = new ImportCsvService($this->repository);
+        $this->asistenciasService = new AsistenciasService();
     }
 
     public function payments(Request $request)
@@ -25,6 +29,11 @@ class EmployeeController extends Controller
         foreach ($employee->payments as $payment) {
             $payment->details;
         }
+
+        $employee->tarja = $employee->jornal
+            ? $this->asistenciasService->getTarjaConDigitacion($employee)
+            : $this->asistenciasService->getTarjaSinDigitacion($employee);
+        //$employee->asistencias;
         return $employee;
     }
 

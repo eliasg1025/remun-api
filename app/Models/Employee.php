@@ -21,4 +21,9 @@ class Employee extends Model
     {
         return $this->hasMany(Payment::class, 'trabajador_id', 'id');
     }
+
+    public function asistencias()
+    {
+        return $this->hasMany(Asistencia::class, 'trabajador_id', 'id');
+    }
 }
