@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\{ PaymentController, EmployeeController, PaymentDetailController, UserController, AuthController };
+use App\Http\Controllers\{AsistenciasController, PaymentController, EmployeeController, PaymentDetailController, UserController, AuthController };
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -27,6 +27,7 @@ Route::group(['prefix' => 'payments'], function() {
     Route::get('/', [PaymentController::class, 'all']);
     Route::get('/{id}', [PaymentController::class, 'show'])->where('id', '[0-9]+');
     Route::post('/', [PaymentController::class, 'store']);
+    Route::post('/many', [PaymentController::class, 'storeMany']);
     Route::post('/import', [PaymentController::class, 'import']);
 });
 
@@ -44,7 +45,12 @@ Route::group(['prefix' => 'users'], function () {
 
 Route::group(['prefix' => 'payments-detail'], function() {
     Route::get('/{id}', [PaymentDetailController::class, 'show']);
+    Route::post('/many', [PaymentDetailController::class, 'storeMany']);
     Route::post('/import', [PaymentDetailController::class, 'import']);
+});
+
+Route::group(['prefix' => 'asistencias'], function() {
+    Route::post('/many', [AsistenciasController::class, 'storeMany']);
 });
 
 Route::group(['prefix' => 'companies'], function () {

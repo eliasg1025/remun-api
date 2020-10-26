@@ -15,6 +15,21 @@ class AsistenciasService
         //
     }
 
+    public function storeMany($data)
+    {
+        $counter = 0;
+        foreach ($data as $row) {
+            $asistencia = [
+                'fecha'         => $row['fecha'],
+                'horas'         => $row['horas'],
+                'trabajador_id' => $row['trabajador_id'],
+            ];
+
+            $counter += DB::table('asistencias')->insert($asistencia);
+        }
+        return $counter;
+    }
+
     private function diaCortoEspaniol($dia)
     {
         switch ($dia) {

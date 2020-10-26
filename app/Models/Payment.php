@@ -8,9 +8,8 @@ class Payment extends Model
 {
     public $incrementing = false;
     public $timestamps = false;
-    protected $table = "anticipos";
-    protected $primaryKey = 'id';
-    protected $fillable = ['id', 'mes', 'anio', 'empresa_id', 'zona_id', 'monto', 'trabajador_id'];
+    protected $table = "pagos";
+    protected $fillable = ['id', 'tipo_pago_id', 'mes', 'anio', 'empresa_id', 'zona_id', 'monto', 'trabajador_id', 'banco', 'numero_cuenta'];
 
     public function employee()
     {
