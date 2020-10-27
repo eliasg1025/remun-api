@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Employee;
 use App\Repositories\EmployeeRepositoryInterface;
 use App\Services\AsistenciasService;
+use App\Services\EmployesService;
 use App\Services\ImportCsvService;
+use App\Utils\PaymentInfo;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -12,29 +16,13 @@ class EmployeeController extends Controller
 {
     private $repository;
     private ImportCsvService $importService;
-    private AsistenciasService $asistenciasService;
+    private EmployesService $employeeService;
 
     public function __construct(EmployeeRepositoryInterface $repository)
     {
         $this->repository = $repository;
         $this->importService = new ImportCsvService($this->repository);
-        $this->asistenciasService = new AsistenciasService();
-    }
-
-    public function payments(Request $request)
-    {
-        $employeeId = $request->get('user')->username;
-        $employee = $this->repository->find($employeeId);
-
-        foreach ($employee->payments as $payment) {
-            $payment->details;
-        }
-
-        $employee->tarja = $employee->jornal
-            ? $this->asistenciasService->getTarjaConDigitacion($employee)
-            : $this->asistenciasService->getTarjaSinDigitacion($employee);
-        //$employee->asistencias;
-        return $employee;
+        $this->employeeService = new EmployesService();
     }
 
     public function show($employee)
@@ -42,20 +30,33 @@ class EmployeeController extends Controller
         return $this->repository->find($employee);
     }
 
-    public function info($employee)
-    {
-        $instance = $this->repository->find($employee);
-
-        foreach ($instance->payments as $payment) {
-            $payment->details;
-        }
-
-        return $instance;
-    }
-
     public function store(Request $request)
     {
         return $this->repository->create($request->all());
+    }
+
+    public function getPayment(Employee $employee, Request $request)
+    {
+        $periodo    = Carbon::parse($request->query('period'));
+        $tipoPagoId = $request->query('paymentTypeId');
+
+        $paymentInfo = new PaymentInfo($employee, $periodo, $tipoPagoId);
+        $employee = $this->employeeService->getPayment($paymentInfo);
+
+        return $employee;
+    }
+
+    public function info(Request $request)
+    {
+        $periodo    = Carbon::parse($request->query('period'));
+        $tipoPagoId = $request->query('paymentTypeId');
+        $user       = $request->get('user');
+
+        $employee = $this->repository->find($user->trabajador->id);
+        $paymentInfo = new PaymentInfo($employee, $periodo, $tipoPagoId);
+        $employee = $this->employeeService->getPayment($paymentInfo);
+
+        return $employee;
     }
 
     public function import(Request $request)

@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Asistencia;
 use App\Models\Employee;
+use App\Utils\PaymentInfo;
 use Carbon\CarbonPeriod;
 use Illuminate\Support\Facades\DB;
 
@@ -50,18 +51,13 @@ class AsistenciasService
         }
     }
 
-    public function getTarjaConDigitacion(Employee $trabajador)
+    public function getTarjaConDigitacion(PaymentInfo $paymentInfo)
     {
-        $fechaIncial = now()->firstOfMonth();
-        $quincena = now()->firstOfMonth()->addDays(14);
-
-        /*
-        if ($fechaActual->greaterThan($quincena)) {
-            $fechaFinal = $fechaActual->lastOfMonth();
-        } else {
-            $fechaFinal = $quincena;
-        }*/
-        $fechaFinal = $quincena;
+        $trabajador  = $paymentInfo->getEmployee();
+        $fechaIncial = clone $paymentInfo->getPeriod()->firstOfMonth();
+        $fechaFinal = $paymentInfo->getTypePaymentId() === 2
+            ? clone $paymentInfo->getPeriod()->addDays(14)
+            : clone $paymentInfo->getPeriod()->lastOfMonth();
 
         $periodo = CarbonPeriod::create($fechaIncial, $fechaFinal);
         $tmp = [];
@@ -80,7 +76,7 @@ class AsistenciasService
             $str_dia = $dia->format('Y-m-d');
             $index = array_search($str_dia, $dias);
 
-            $fecha = $this->diaCortoEspaniol($dia->dayOfWeek) . ' ' . $dia->day;
+            $fecha = $this->diaCortoEspaniol($dia->dayOfWeek) . ' ' . $dia->day . '/' . $dia->month;
             if ( !is_bool($index) ) {
                 array_push($tmp, [
                     'fecha' => $fecha,
@@ -97,18 +93,14 @@ class AsistenciasService
         return $tmp;
     }
 
-    public function getTarjaSinDigitacion(Employee $trabajador)
+    public function getTarjaSinDigitacion(PaymentInfo $paymentInfo)
     {
-        $fechaIncial = now()->firstOfMonth();
-        $quincena = now()->firstOfMonth()->addDays(14);
+        $trabajador = $paymentInfo->getEmployee();
 
-        /*
-        if ($fechaActual->greaterThan($quincena)) {
-            $fechaFinal = $fechaActual->lastOfMonth();
-        } else {
-            $fechaFinal = $quincena;
-        }*/
-        $fechaFinal = $quincena;
+        $fechaIncial = clone $paymentInfo->getPeriod()->firstOfMonth();
+        $fechaFinal = $paymentInfo->getTypePaymentId() === 2
+            ? clone $paymentInfo->getPeriod()->addDays(14)
+            : clone $paymentInfo->getPeriod()->lastOfMonth();
 
         $periodo = CarbonPeriod::create($fechaIncial, $fechaFinal);
         $tmp = [];
@@ -127,7 +119,7 @@ class AsistenciasService
             $str_dia = $dia->format('Y-m-d');
             $index = array_search($str_dia, $dias);
 
-            $fecha = $this->diaCortoEspaniol($dia->dayOfWeek) . ' ' . $dia->day;
+            $fecha = $this->diaCortoEspaniol($dia->dayOfWeek) . ' ' . $dia->day . '/' . $dia->month;
             if ( !is_bool($index) ) {
                 array_push($tmp, [
                     'fecha' => $fecha,
