@@ -20,17 +20,6 @@ class UserService
 
     public function sync()
     {
-        /*
-        $result = Employee::all()->chunk(500, function ($employees) {
-            foreach ($employees as $employee) { // TODO
-                $this->repository->create([
-                    'username' => $employee->id,
-                    'password' => md5(sha1($employee->id)),
-                    'trabajador_id' => $employee->id
-                ]);
-            }
-        });*/
-
         $trabajadores = Employee::all();
 
         foreach ($trabajadores as $trabajador) {

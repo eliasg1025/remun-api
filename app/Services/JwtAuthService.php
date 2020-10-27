@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Employee;
+use App\Models\Rol;
 use App\Models\Trabajador;
 use Firebase\JWT\JWT;
 use App\Models\User;
@@ -24,16 +25,19 @@ class JwtAuthService
             ];
         }
 
-        $trabajador = Employee::where('id', $usuario->employee_id)
+        $trabajador = Employee::where('id', $usuario->trabajador_id)
                 ->select('id', 'apellido_paterno', 'apellido_materno', 'nombre')
                 ->first();
 
+        $rol = Rol::where('id', $usuario->rol_id)->first();
+
         $token = [
-            'sub' => $usuario->id,
-            'username' => $usuario->username,
+            'sub'        => $usuario->id,
+            'username'   => $usuario->username,
             'trabajador' => $trabajador,
-            'iat' => time(),
-            'exp' => time() + (7 * 24 * 60 * 60)
+            'rol'        => $rol,
+            'iat'        => time(),
+            'exp'        => time() + (7 * 24 * 60 * 60)
         ];
 
         $jwt = JWT::encode($token, env('JWT_KEY'), 'HS256');
