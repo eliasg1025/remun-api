@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\{AsistenciasController, PaymentController, EmployeeController, PaymentDetailController, UserController, AuthController };
+use App\Http\Controllers\{AsistenciasController, PaymentController, EmployeeController, PaymentDetailController, UserController, AuthController, RolController};
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -24,6 +24,10 @@ Route::group(['prefix' => 'auth'], function() {
     Route::get('me', [AuthController::class, 'me'])->middleware('api.auth');
 });
 
+Route::group(['prefix' => 'roles'], function() {
+    Route::get('/', [RolController::class, 'get'])->middleware('api.auth');
+});
+
 Route::group(['prefix' => 'payments'], function() {
     Route::get('/', [PaymentController::class, 'all']);
     Route::get('/{id}', [PaymentController::class, 'show'])->where('id', '[0-9]+');
@@ -41,6 +45,7 @@ Route::group(['prefix' => 'employees'], function () {
 });
 
 Route::group(['prefix' => 'users'], function () {
+    Route::post('/create-other', [UserController::class, 'createOtherUser'])->middleware('api.auth');
     Route::post('/sync', [UserController::class, 'sync']);
 });
 

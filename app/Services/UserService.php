@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Repositories\EmployeeRepository;
 use App\Repositories\UserRepository;
 use App\Repositories\UserRepositoryInterface;
+use App\Utils\UserInfo;
 use Illuminate\Support\Facades\DB;
 
 class UserService
@@ -31,5 +32,15 @@ class UserService
         }
 
         return ['completado'];
+    }
+
+    public function createOtherUser(UserInfo $userInfo)
+    {
+        return $this->repository->create([
+            'username'      => $userInfo->getUsername(),
+            'password'      => $userInfo->getPassword(),
+            'trabajador_id' => $userInfo->getTrabajadorId(),
+            'rol_id'        => $userInfo->getRolId()
+        ]);
     }
 }
