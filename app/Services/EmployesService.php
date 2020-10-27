@@ -30,7 +30,10 @@ class EmployesService
                 'nombre'           => $row[$nombre_tabla . 'nombre'],
                 'apellido_paterno' => $row[$nombre_tabla . 'apellido_paterno'],
                 'apellido_materno' => $row[$nombre_tabla . 'apellido_materno'],
-                'jornal'           => $row[$nombre_tabla . 'jornal']
+                'jornal'           => $row[$nombre_tabla . 'jornal'],
+                'regimen_id'       => $row[$nombre_tabla . 'regimen_id'],
+                'oficio'           => $row[$nombre_tabla . 'oficio'],
+                'sueldo_bruto'     => $row[$nombre_tabla . 'sueldo_bruto']
             ];
 
             $counter += DB::table('trabajadores')->updateOrInsert(['id' => $trabajador['id']], $trabajador);
@@ -48,9 +51,11 @@ class EmployesService
         ])->firstOrFail();
         $payment->typePayment;
         $payment->details;
+        $payment->company;
         $employee = $paymentInfo->getEmployee();
 
         $employee->payment = $payment;
+        $employee->regimen;
         $employee->tarja = $employee->jornal
             ? $this->asistenciasService->getTarjaConDigitacion($paymentInfo)
             : $this->asistenciasService->getTarjaSinDigitacion($paymentInfo);

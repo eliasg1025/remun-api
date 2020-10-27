@@ -25,4 +25,9 @@ class Employee extends Model
     {
         return $this->hasMany(Asistencia::class, 'trabajador_id', 'id');
     }
+
+    public function regimen()
+    {
+        return $this->belongsTo(Regimen::class, 'regimen_id', 'id');
+    }
 }

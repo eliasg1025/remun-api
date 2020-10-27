@@ -30,6 +30,7 @@ class PaymentService
                 'trabajador_id' => $row['trabajador_id'],
                 'zona_id'       => $row['zona_id'],
                 'tipo_pago_id'  => 1,
+                'fecha_ingreso' => $row['fecha_inicio']
             ];
 
             $counter += DB::table('pagos')->updateOrInsert([

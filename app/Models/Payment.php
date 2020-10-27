@@ -25,4 +25,9 @@ class Payment extends Model
     {
         return $this->belongsTo(PaymentType::class, 'tipo_pago_id', 'id');
     }
+
+    public function company()
+    {
+        return $this->belongsTo(Company::class, 'empresa_id', 'id');
+    }
 }

@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Regimen;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -17,6 +18,7 @@ class DatabaseSeeder extends Seeder
             //EmpresaSeeder::class,
             //RolSeeder::class,
             UsuarioSeeder::class,
+            //RegimenSeeder::class,
         ]);
     }
 }
