@@ -56,7 +56,11 @@ class TarjaService
                 '31' => $row['31'],
             ];
 
-            $counter += DB::table('tarjas')->insert($asistencia);
+            $counter += DB::table('tarjas')->updateOrInsert([
+                'mes' => $mes,
+                'anio' => $anio,
+                'trabajador_id' => $row['RUT']
+            ] ,$asistencia);
         }
         return $counter;
     }
