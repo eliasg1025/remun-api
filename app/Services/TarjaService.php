@@ -21,8 +21,8 @@ class TarjaService
         foreach ($data['data'] as $row) {
             $asistencia = [
                 'trabajador_id' => $row['RUT'],
-                'mes' => $mes,
-                'anio' => $anio,
+                'mes'           => $mes,
+                'anio'          => $anio,
                 '1' => $row['1'],
                 '2' => $row['2'],
                 '3' => $row['3'],
@@ -56,11 +56,13 @@ class TarjaService
                 '31' => $row['31'],
             ];
 
-            $counter += DB::table('tarjas')->updateOrInsert([
-                'mes' => $mes,
-                'anio' => $anio,
-                'trabajador_id' => $row['RUT']
-            ] ,$asistencia);
+            $counter += DB::table('tarjas')->updateOrInsert(
+                [
+                    'mes'           => $asistencia['mes'],
+                    'anio'          => $asistencia['anio'],
+                    'trabajador_id' => $asistencia['trabajador_id']
+                ]
+            , $asistencia);
         }
         return $counter;
     }
