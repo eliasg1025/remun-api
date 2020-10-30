@@ -55,14 +55,14 @@ class TarjaService
                 '30' => $row['30'],
                 '31' => $row['31'],
             ];
+            /*
+            $counter += DB::table('tarjas')->updateOrInsert([
+                'mes'           => $asistencia['mes'],
+                'anio'          => $asistencia['anio'],
+                'trabajador_id' => $asistencia['trabajador_id']
+            ], $asistencia);*/
 
-            $counter += DB::table('tarjas')->updateOrInsert(
-                [
-                    'mes'           => $asistencia['mes'],
-                    'anio'          => $asistencia['anio'],
-                    'trabajador_id' => $asistencia['trabajador_id']
-                ]
-            , $asistencia);
+            $counter += DB::table('tarjas')->insert($asistencia);
         }
         return $counter;
     }
