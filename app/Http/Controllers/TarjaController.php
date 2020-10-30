@@ -11,7 +11,11 @@ class TarjaController extends Controller
     public function storeMany(Request $request)
     {
         $data = $request->get('data');
-        ProcessStoreManyTarja::dispatch($data);
+        ProcessStoreManyTarja::dispatch([
+            'data' => $request->get('data'),
+            'mes'  => $request->get('mes'),
+            'anio' => $request->get('anio')
+        ]);
         return response()->json([
             'message' => 'Proceso en cola'
         ]);
