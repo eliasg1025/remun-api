@@ -11,15 +11,15 @@ class TarjaController extends Controller
 {
     public function storeMany(Request $request)
     {
-        /* ProcessStoreManyTarja::dispatch([
+        ProcessStoreManyTarja::dispatch([
             'data' => $request->get('data'),
             'mes'  => $request->get('mes'),
             'anio' => $request->get('anio')
         ]);
         return response()->json([
             'message' => 'Proceso en cola'
-        ]); */
-        $service = new TarjaService();
+        ]);
+        /* $service = new TarjaService();
         try {
             $service->storeMany([
                 'data' => $request->get('data'),
@@ -33,6 +33,6 @@ class TarjaController extends Controller
             return response()->json([
                 'message' => $e->getMessage()
             ]);
-        }
+        } */
     }
 }
