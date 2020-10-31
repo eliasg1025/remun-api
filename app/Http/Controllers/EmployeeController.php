@@ -48,7 +48,7 @@ class EmployeeController extends Controller
         $paymentInfo    = new PaymentInfo($employee, $periodo, $tipoPagoId);
         $employee       = $this->employeeService->getPayment($paymentInfo);
 
-        $this->lecturasService->store($periodo, $tipoPagoId, $usuario->id);
+        $this->lecturasService->store($periodo, $tipoPagoId, $usuario->sub);
 
         return $employee;
     }
