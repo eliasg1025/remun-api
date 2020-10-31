@@ -72,7 +72,7 @@ class AsistenciasService
         for ($i = 1; $i <= 31; $i++)
         {
             array_push($tmp, [
-                'dia'   => $i . '/' . $paymentInfo->getMonth(),
+                'fecha'   => $i . '/' . $paymentInfo->getMonth(),
                 'horas' => $tarja['dia_' . $i]
             ]);
         }
