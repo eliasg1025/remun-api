@@ -7,6 +7,7 @@ use App\Repositories\EmployeeRepositoryInterface;
 use App\Services\AsistenciasService;
 use App\Services\EmployesService;
 use App\Services\ImportCsvService;
+use App\Services\LecturasSueldoService;
 use App\Utils\PaymentInfo;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -17,12 +18,14 @@ class EmployeeController extends Controller
     private $repository;
     private ImportCsvService $importService;
     private EmployesService $employeeService;
+    private LecturasSueldoService $lecturasService;
 
     public function __construct(EmployeeRepositoryInterface $repository)
     {
         $this->repository = $repository;
         $this->importService = new ImportCsvService($this->repository);
         $this->employeeService = new EmployesService();
+        $this->lecturasService = new LecturasSueldoService();
     }
 
     public function show($employee)
@@ -37,11 +40,15 @@ class EmployeeController extends Controller
 
     public function getPayment(Employee $employee, Request $request)
     {
+        $usuario    = $request->get('user');
         $periodo    = Carbon::parse($request->query('period'));
         $tipoPagoId = $request->query('paymentTypeId');
+        $seguro     = $request->query('seguro');
 
-        $paymentInfo = new PaymentInfo($employee, $periodo, $tipoPagoId);
-        $employee = $this->employeeService->getPayment($paymentInfo);
+        $paymentInfo    = new PaymentInfo($employee, $periodo, $tipoPagoId);
+        $employee       = $this->employeeService->getPayment($paymentInfo);
+
+        $this->lecturasService->store($periodo, $tipoPagoId, $usuario->id);
 
         return $employee;
     }
