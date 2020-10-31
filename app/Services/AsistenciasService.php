@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Asistencia;
 use App\Models\Employee;
+use App\Models\Tarja;
 use App\Utils\PaymentInfo;
 use Carbon\CarbonPeriod;
 use Illuminate\Support\Facades\DB;
@@ -62,35 +63,13 @@ class AsistenciasService
         $periodo = CarbonPeriod::create($fechaIncial, $fechaFinal);
         $tmp = [];
 
-        $asistencias = Asistencia::where([
-                'trabajador_id' => $trabajador->id,
-            ])
-            ->whereDate('fecha', '>=', $fechaIncial->toDateString())
-            ->whereDate('fecha', '<=', $fechaFinal->toDateString())
-            ->get()->toArray();
+        $tarja = Tarja::where([
+            'trabajador_id' => $trabajador->id,
+            'mes' => $paymentInfo->getMonth(),
+            'anio' => $paymentInfo->getYear(),
+        ])->first();
 
-        $dias = array_column($asistencias, 'fecha');
-        $horas = array_column($asistencias, 'horas');
-
-        foreach ($periodo as $dia) {
-            $str_dia = $dia->format('Y-m-d');
-            $index = array_search($str_dia, $dias);
-
-            $fecha = $this->diaCortoEspaniol($dia->dayOfWeek) . ' ' . $dia->day . '/' . $dia->month;
-            if ( !is_bool($index) ) {
-                array_push($tmp, [
-                    'fecha' => $fecha,
-                    'horas' => $horas[$index]
-                ]);
-            } else {
-                array_push($tmp, [
-                    'fecha' => $fecha,
-                    'horas' => 0
-                ]);
-            }
-        }
-
-        return $tmp;
+        return $tarja;
     }
 
     public function getTarjaSinDigitacion(PaymentInfo $paymentInfo)
