@@ -67,9 +67,17 @@ class AsistenciasService
             'trabajador_id' => $trabajador->id,
             'mes' => $paymentInfo->getMonth(),
             'anio' => $paymentInfo->getYear(),
-        ])->first();
+        ])->first()->toArray();
 
-        return $tarja;
+        for ($i = 1; $i <= 31; $i++)
+        {
+            array_push($tmp, [
+                'dia'   => $i . '/' . $paymentInfo->getMonth(),
+                'horas' => $tarja['dia_' . $i]
+            ]);
+        }
+
+        return $tmp;
     }
 
     public function getTarjaSinDigitacion(PaymentInfo $paymentInfo)
