@@ -16,6 +16,8 @@ class LecturasSueldoService
             'tipo_pago_id' => $tipoPagoId
         ])->first();
 
+        dd($pago);
+
         DB::table('lecturas_sueldo')->insert([
             'fecha_hora'    => now()->toDateTimeString(),
             'usuario_id'    => $usuarioId,
