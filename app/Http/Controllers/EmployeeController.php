@@ -44,9 +44,13 @@ class EmployeeController extends Controller
         $periodo    = Carbon::parse($request->query('period'));
         $tipoPagoId = $request->query('paymentTypeId');
         $seguro     = $request->query('seguro');
-
         $paymentInfo    = new PaymentInfo($employee, $periodo, $tipoPagoId);
+
         $employee       = $this->employeeService->getPayment($paymentInfo);
+
+        if ($employee->sueldo_bruto >= 2000 && $usuario->rol->id !== 4) {
+            return response()->json(['message' => 'Acceso no permitido'], 401);
+        }
 
         $this->lecturasService->store($periodo, $tipoPagoId, $usuario->sub, $employee->payment->id);
 
