@@ -81,7 +81,7 @@ class AsistenciasService
         {
             array_push($tmp, [
                 'fecha'   => $i . '/' . $paymentInfo->getMonth(),
-                'horas' => $tarja['dia_' . $i]
+                'horas' => $tarja['dia_' . $i] ?? 0
             ]);
         }
 
