@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Repositories\UserRepositoryInterface;
 use App\Services\UserService;
 use App\Utils\UserInfo;
@@ -35,6 +36,14 @@ class UserController extends Controller
             return response()->json(['message' => 'No puede crear este tipo de usuario'], 401);
         }
         $userInfo = new UserInfo($username, $password, $trabajador_id, $rol_id);
+
+        $existUsername = User::whereUsername($username)->first();
+
+        if ($existUsername) {
+            return response()->json([
+                'message' => 'Nombre de usuario ya existe'
+            ], 400);
+        }
 
         $user = $this->service->createOtherUser($userInfo);
 
