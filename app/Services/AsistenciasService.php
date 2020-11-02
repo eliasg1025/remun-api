@@ -6,6 +6,7 @@ use App\Models\Asistencia;
 use App\Models\Employee;
 use App\Models\Tarja;
 use App\Utils\PaymentInfo;
+use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use Illuminate\Support\Facades\DB;
 
@@ -79,8 +80,9 @@ class AsistenciasService
 
         for ($i = 1; $i <= 31; $i++)
         {
+            $str_dia = $this->diaCortoEspaniol(Carbon::parse($paymentInfo->getYear() . '-' . $paymentInfo->getMonth() . '-' .$i)->dayOfWeek);
             array_push($tmp, [
-                'fecha'   => $i . '/' . $paymentInfo->getMonth(),
+                'fecha'   => $str_dia . ' ' . $i . '/' . $paymentInfo->getMonth(),
                 'horas' => $tarja['dia_' . $i] ?? 0
             ]);
         }
