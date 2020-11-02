@@ -14,8 +14,12 @@ class AsistenciasController extends Controller
 
     public function storeMany(Request $request)
     {
-        $data = $request->get('data');
-        $result = ProcessStoreManyAsistencias::dispatch($data);
+        $data = [
+            'data' => $request->get('data'),
+            'mes'  => $request->get('mes'),
+            'anio' => $request->get('anio')
+        ];
+        $result = ProcessStoreManyAsistencias::dispatch($data['data']);
         return response()->json([
             'message' => 'Proceso en cola'
         ]);

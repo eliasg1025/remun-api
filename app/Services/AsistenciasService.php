@@ -25,6 +25,8 @@ class AsistenciasService
                 'fecha'         => $row['fecha'],
                 'horas'         => $row['horas'],
                 'trabajador_id' => $row['trabajador_id'],
+                'motivo'        => $row['motivo'],
+                'con_goce'      => $row['con_goce']
             ];
 
             $counter += DB::table('asistencias')->insert($asistencia);
