@@ -107,19 +107,40 @@ class AsistenciasService
             ->whereDate('fecha', '<=', $fechaFinal->toDateString())
             ->get()->toArray();
 
-        $dias = array_column($asistencias, 'fecha');
-        $horas = array_column($asistencias, 'horas');
+        $dias       = array_column($asistencias, 'fecha');
+        $horas      = array_column($asistencias, 'horas');
+        $motivo     = array_column($asistencias, 'motivo');
+        $con_goce   = array_column($asistencias, 'con_goce');
 
         foreach ($periodo as $dia) {
             $str_dia = $dia->format('Y-m-d');
             $index = array_search($str_dia, $dias);
-
             $fecha = $this->diaCortoEspaniol($dia->dayOfWeek) . ' ' . $dia->day . '/' . $dia->month;
+
+            /**
+             * Sin goce de haber:
+             * PS     PERMISO SIN GOCE
+             * F      FALTA JUSTIFICADA
+             * A      AUSENCIA
+             */
+            $motivosSinGoce = ['PS', 'F', 'A'];
+
             if ( !is_bool($index) ) {
-                array_push($tmp, [
-                    'fecha' => $fecha,
-                    'horas' => 8 - $horas[$index]
-                ]);
+
+                $motivo = $motivo[$index];
+
+                if ($horas[$index] >= 8) {
+                    array_push($tmp, [
+                        'fecha' => $fecha,
+                        'horas' => $motivo
+                    ]);
+                } else {
+                    array_push($tmp, [
+                        'fecha' => $fecha,
+                        'horas' => in_array($motivo, $motivosSinGoce) ? 8 - $horas[$index] : 8
+                    ]);
+                }
+
             } else {
                 array_push($tmp, [
                     'fecha' => $fecha,
