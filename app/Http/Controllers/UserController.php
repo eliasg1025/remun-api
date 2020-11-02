@@ -36,7 +36,18 @@ class UserController extends Controller
         }
         $userInfo = new UserInfo($username, $password, $trabajador_id, $rol_id);
 
-        return $this->service->createOtherUser($userInfo);
+        $user = $this->service->createOtherUser($userInfo);
+
+        if (!$user) {
+            return response()->json([
+                'message' => 'Hubo algún problema'
+            ], 400);
+        }
+
+        return response()->json([
+            'message' => 'Usuario creado existosamente',
+            'data'    => $user
+        ], 201);
     }
 
     public function get(Request $request) {
