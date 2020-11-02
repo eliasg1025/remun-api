@@ -109,8 +109,7 @@ class AsistenciasService
 
         $dias       = array_column($asistencias, 'fecha');
         $horas      = array_column($asistencias, 'horas');
-        $motivo     = array_column($asistencias, 'motivo');
-        $con_goce   = array_column($asistencias, 'con_goce');
+        $motivos     = array_column($asistencias, 'motivo');
 
         foreach ($periodo as $dia) {
             $str_dia = $dia->format('Y-m-d');
@@ -127,7 +126,7 @@ class AsistenciasService
 
             if ( !is_bool($index) ) {
 
-                $motivo = $motivo[$index];
+                $motivo = $motivos[$index];
 
                 if ($horas[$index] >= 8) {
                     array_push($tmp, [
