@@ -67,7 +67,13 @@ class AsistenciasService
             'trabajador_id' => $trabajador->id,
             'mes' => $paymentInfo->getMonth(),
             'anio' => $paymentInfo->getYear(),
-        ])->first()->toArray();
+        ])->first();
+
+        if (!$tarja) {
+            return [];
+        }
+
+        $tarja = $tarja->toArray();
 
         for ($i = 1; $i <= 31; $i++)
         {
