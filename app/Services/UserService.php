@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Employee;
+use App\Models\Rol;
 use App\Models\User;
 use App\Repositories\EmployeeRepository;
 use App\Repositories\UserRepository;
@@ -42,5 +43,10 @@ class UserService
             'trabajador_id' => $userInfo->getTrabajadorId(),
             'rol_id'        => $userInfo->getRolId()
         ]);
+    }
+
+    public function listUsersByRole($rolId)
+    {
+        return User::with('rol', 'employee')->where('rol_id', '<', $rolId)->get();
     }
 }

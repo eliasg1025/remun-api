@@ -25,13 +25,23 @@ class UserController extends Controller
 
     public function createOtherUser(Request $request)
     {
+        $parentUser    = $request->get('user');
         $username      = $request->get('username');
         $password      = $request->get('password');
         $trabajador_id = $request->get('trabajador_id');
         $rol_id        = $request->get('rol_id');
 
+        if (($parentUser->rol->id <= $rol_id) && $parentUser->rol->id !== 4) {
+            return response()->json(['message' => 'No puede crear este tipo de usuario'], 401);
+        }
         $userInfo = new UserInfo($username, $password, $trabajador_id, $rol_id);
 
         return $this->service->createOtherUser($userInfo);
+    }
+
+    public function get(Request $request) {
+        $user = $request->get('user');
+
+        return $this->service->listUsersByRole($user->rol->id);
     }
 }

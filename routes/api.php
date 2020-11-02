@@ -45,6 +45,7 @@ Route::group(['prefix' => 'employees'], function () {
 });
 
 Route::group(['prefix' => 'users'], function () {
+    Route::get('/', [UserController::class, 'get'])->middleware('api.auth');
     Route::post('/create-other', [UserController::class, 'createOtherUser'])->middleware('api.auth');
     Route::post('/sync', [UserController::class, 'sync']);
 });

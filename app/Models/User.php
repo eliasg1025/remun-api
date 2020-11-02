@@ -30,6 +30,11 @@ class User extends Model
         'password',
     ];
 
+    public function rol()
+    {
+        return $this->belongsTo(Rol::class, 'rol_id', 'id');
+    }
+
     public function employee()
     {
         return $this->belongsTo(Employee::class, 'trabajador_id', 'id');
