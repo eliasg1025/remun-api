@@ -42,6 +42,8 @@ class UserController extends Controller
     public function get(Request $request) {
         $user = $request->get('user');
 
-        return $this->service->listUsersByRole($user->rol->id);
+        return response()->json([
+            'users' => $this->service->listUsersByRole($user->rol->id)
+        ]);
     }
 }
