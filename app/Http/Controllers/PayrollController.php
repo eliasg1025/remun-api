@@ -17,6 +17,9 @@ class PayrollController extends Controller
 
     public function getByEmployee(Request $request, $trabajadorId)
     {
-        return $this->paymentService->getByEmployee($trabajadorId);
+        return response()->json([
+            'message' => 'Planillas obtenidas',
+            'data' => $this->paymentService->getByEmployee($trabajadorId)
+        ]);
     }
 }
