@@ -44,7 +44,8 @@ class EmployeeController extends Controller
         $periodo    = Carbon::parse($request->query('period'));
         $tipoPagoId = $request->query('paymentTypeId');
         $seguro     = $request->query('seguro');
-        $paymentInfo    = new PaymentInfo($employee, $periodo, $tipoPagoId);
+        $empresaId  = $request->query('empresaId') ?? 0;
+        $paymentInfo    = new PaymentInfo($employee, $periodo, $tipoPagoId, $empresaId);
 
         $employee       = $this->employeeService->getPayment($paymentInfo);
 
@@ -64,7 +65,7 @@ class EmployeeController extends Controller
         $user       = $request->get('user');
 
         $employee = $this->repository->find($user->trabajador->id);
-        $paymentInfo = new PaymentInfo($employee, $periodo, $tipoPagoId);
+        $paymentInfo = new PaymentInfo($employee, $periodo, $tipoPagoId, 0);
         $employee = $this->employeeService->getPayment($paymentInfo);
 
         return $employee;

@@ -10,12 +10,14 @@ class PaymentInfo
     private Employee $employee;
     private Carbon $period;
     private int $typePaymentId;
+    private int $empresaId;
 
-    public function __construct($employee, $period, $typePaymentId)
+    public function __construct($employee, $period, $typePaymentId, $empresaId)
     {
         $this->employee = $employee;
         $this->period = $period;
         $this->typePaymentId = $typePaymentId;
+        $this->empresaId = $empresaId;
     }
 
     public function getEmployee()
@@ -41,5 +43,10 @@ class PaymentInfo
     public function getTypePaymentId()
     {
         return $this->typePaymentId;
+    }
+
+    public function getEmpresaId()
+    {
+        return $this->empresaId;
     }
 }

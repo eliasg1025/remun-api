@@ -43,12 +43,18 @@ class EmployesService
 
     public function getPayment(PaymentInfo $paymentInfo):? Employee
     {
-        $payment = Payment::where([
+        $query = [
             'trabajador_id' => $paymentInfo->getEmployee()->id,
             'mes'           => $paymentInfo->getMonth(),
             'anio'          => $paymentInfo->getYear(),
             'tipo_pago_id'  => $paymentInfo->getTypePaymentId()
-        ])->firstOrFail();
+        ];
+
+        if ($paymentInfo->getEmpresaId() !== 0) {
+            $query['empresa_id'] = $paymentInfo->getEmpresaId();
+        }
+
+        $payment = Payment::where($query)->firstOrFail();
         $payment->typePayment;
         $payment->details;
         $payment->company;

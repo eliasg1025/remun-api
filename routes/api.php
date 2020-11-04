@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\{AsistenciasController, PaymentController, EmployeeController, PaymentDetailController, UserController, AuthController, RolController, TarjaController};
+use App\Http\Controllers\{AsistenciasController, PaymentController, EmployeeController, PaymentDetailController, UserController, AuthController, PayrollController, RolController, TarjaController};
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -26,6 +26,10 @@ Route::group(['prefix' => 'auth'], function() {
 
 Route::group(['prefix' => 'roles'], function() {
     Route::get('/', [RolController::class, 'get'])->middleware('api.auth');
+});
+
+Route::group(['prefix' => 'payroll'], function() {
+    Route::get('/employee/{trabajadorId}', [PayrollController::class, 'getByEmployee']);
 });
 
 Route::group(['prefix' => 'payments'], function() {
