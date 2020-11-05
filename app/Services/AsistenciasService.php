@@ -70,6 +70,7 @@ class AsistenciasService
             'trabajador_id' => $trabajador->id,
             'mes' => $paymentInfo->getMonth(),
             'anio' => $paymentInfo->getYear(),
+            'empresa_id' => $paymentInfo->getEmpresaId(),
         ])->first();
 
         if (!$tarja) {

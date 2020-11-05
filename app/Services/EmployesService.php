@@ -53,6 +53,7 @@ class EmployesService
         }
 
         $payment = Payment::where($query)->firstOrFail();
+        $paymentInfo->setEmpresaId($payment->empresa_id);
         $payment->typePayment;
         $payment->details;
         $payment->company;

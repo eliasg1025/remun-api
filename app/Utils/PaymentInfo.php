@@ -49,4 +49,9 @@ class PaymentInfo
     {
         return $this->empresaId;
     }
+
+    public function setEmpresaId(int $empresaId)
+    {
+        $this->empresaId = $empresaId;
+    }
 }
