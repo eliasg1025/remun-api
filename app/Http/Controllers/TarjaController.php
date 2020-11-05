@@ -14,7 +14,8 @@ class TarjaController extends Controller
         $data = [
             'data' => $request->get('data'),
             'mes'  => $request->get('mes'),
-            'anio' => $request->get('anio')
+            'anio' => $request->get('anio'),
+            'empresaId' => $request->get('empresaId'),
         ];
 
         /* ProcessStoreManyTarja::dispatch($data);
