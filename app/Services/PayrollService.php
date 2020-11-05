@@ -28,7 +28,10 @@ class PayrollService
                 'mes' => $pago->mes,
                 'anio' => $pago->anio,
             ])->first();
-            array_push($planillas, $planilla);
+
+            if ($planilla) {
+                array_push($planillas, $planilla);
+            }
         }
 
         return $planillas;

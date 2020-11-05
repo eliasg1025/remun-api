@@ -4,8 +4,6 @@ namespace App\Services;
 
 use App\Models\Employee;
 use App\Models\Payment;
-use App\Repositories\EmployeeRepositoryInterface;
-use App\Repositories\PaymentRepositoryInterface;
 use App\Utils\PaymentInfo;
 use Illuminate\Support\Facades\DB;
 
@@ -67,5 +65,19 @@ class EmployesService
             : $this->asistenciasService->getTarjaSinDigitacion($paymentInfo);
 
         return $employee;
+    }
+
+    public function existTwoPayments(PaymentInfo $paymentInfo): bool
+    {
+        $query = [
+            'trabajador_id' => $paymentInfo->getEmployee()->id,
+            'mes'           => $paymentInfo->getMonth(),
+            'anio'          => $paymentInfo->getYear(),
+            'tipo_pago_id'  => $paymentInfo->getTypePaymentId()
+        ];
+
+        $countPayments = Payment::where($query)->count();
+
+        return $countPayments >= 2;
     }
 }

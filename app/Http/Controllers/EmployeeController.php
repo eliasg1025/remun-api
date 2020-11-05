@@ -48,14 +48,19 @@ class EmployeeController extends Controller
         $paymentInfo    = new PaymentInfo($employee, $periodo, $tipoPagoId, $empresaId);
 
         $employee       = $this->employeeService->getPayment($paymentInfo);
+        $existTwoPayments = $this->employeeService->existTwoPayments($paymentInfo);
 
         if ($employee->sueldo_bruto >= 2000 && $usuario->rol->id !== 4) {
-            return response()->json(['message' => 'Acceso no permitido'], 401);
+            return response()->json(['message' => 'Trabajador restringido'], 401);
         }
 
         $this->lecturasService->store($periodo, $tipoPagoId, $usuario->sub, $employee->payment->id);
 
-        return $employee;
+        return [
+            'message'       => $existTwoPayments ? 'Existe dos pagos del trabajador para el periodo ' . $periodo->format('m/Y') : 'Pago encontrado',
+            'show_message'  => $existTwoPayments,
+            'data'          => $employee
+        ];
     }
 
     public function info(Request $request)
