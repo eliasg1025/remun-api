@@ -29,7 +29,11 @@ class PaymentDetailService
                 'tipo_pago_id' => 1
             ];
 
-            $counter += DB::table('detalles_pagos')->updateOrInsert(['id' => $entidad['id']], $entidad);
+            $counter += DB::table('detalles_pagos')->updateOrInsert([
+                'id' => $entidad['id'],
+                'concepto' => $entidad['concepto'],
+                'tipo_pago_id' => $entidad['tipo_pago_id'],
+            ], $entidad);
         }
         return $counter;
     }
