@@ -29,7 +29,7 @@ class PaymentService
                 'numero_cuenta' => $row['numero_cuenta'],
                 'trabajador_id' => $row['trabajador_id'],
                 'zona_id'       => $row['zona_id'],
-                'tipo_pago_id'  => 1,
+                'tipo_pago_id'  => $row['tipo_pago_id'],
                 'fecha_ingreso' => $row['fecha_inicio']
             ];
 

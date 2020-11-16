@@ -30,7 +30,11 @@ class AsistenciasService
                 'con_goce'      => $row['con_goce']
             ];
 
-            $counter += DB::table('asistencias')->insert($asistencia);
+            $counter += DB::table('asistencias')->updateOrInsert([
+                'fecha'         => $row['fecha'],
+                'trabajador_id' => $row['trabajador_id'],
+                'motivo'        => $row['motivo'],
+            ], $asistencia);
         }
         return $counter;
     }

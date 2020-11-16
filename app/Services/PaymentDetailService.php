@@ -26,7 +26,7 @@ class PaymentDetailService
                 'concepto'     => $row['concepto'],
                 'monto'        => $row['monto'],
                 'tipo'         => $row['tipo'],
-                'tipo_pago_id' => 1
+                'tipo_pago_id' => $row['tipo_pago_id']
             ];
 
             $counter += DB::table('detalles_pagos')->updateOrInsert([
