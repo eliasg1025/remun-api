@@ -20,6 +20,6 @@ class LecturasSueldosController extends Controller
         $desde = $request->query('desde');
         $hasta = $request->query('hasta');
 
-        return DB::select("call spc_obtener_lecturas($desde, $hasta)");
+        return $this->lecturasSueldosService->get($desde, $hasta);
     }
 }
