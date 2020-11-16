@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\{AsistenciasController, PaymentController, EmployeeController, PaymentDetailController, UserController, AuthController, PayrollController, RolController, TarjaController};
+use App\Http\Controllers\{AsistenciasController, PaymentController, EmployeeController, PaymentDetailController, UserController, AuthController, LecturasSueldosController, PayrollController, RolController, TarjaController};
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -66,6 +66,10 @@ Route::group(['prefix' => 'tarja'], function() {
 
 Route::group(['prefix' => 'asistencias'], function() {
     Route::post('/many', [AsistenciasController::class, 'storeMany']);
+});
+
+Route::group(['prefix' => 'lecturas-sueldos'], function() {
+    Route::get('/', [LecturasSueldosController::class, 'get']);
 });
 
 Route::group(['prefix' => 'companies'], function () {
