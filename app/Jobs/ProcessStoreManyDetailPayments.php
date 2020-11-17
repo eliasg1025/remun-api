@@ -13,6 +13,8 @@ class ProcessStoreManyDetailPayments implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    public $tries = 5;
+
     protected $data;
     /**
      * Create a new job instance.
