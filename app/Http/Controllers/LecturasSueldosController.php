@@ -22,4 +22,9 @@ class LecturasSueldosController extends Controller
 
         return $this->lecturasSueldosService->get($desde, $hasta);
     }
+
+    public function getCantidadPorDia(Request $request)
+    {
+        return $this->lecturasSueldosService->getCantidadPorDia();
+    }
 }

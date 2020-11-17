@@ -43,4 +43,13 @@ class LecturasSueldoService
             order by l.fecha_hora desc;
         ");
     }
+
+    public function getCantidadPorDia()
+    {
+        return DB::select("
+            select count(*) as cantidad, date(lecturas_sueldo.fecha_hora) as fecha_lectura from lecturas_sueldo
+            group by date(lecturas_sueldo.fecha_hora)
+            order by fecha_lectura desc;
+        ");
+    }
 }
