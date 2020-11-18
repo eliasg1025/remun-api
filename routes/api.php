@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\{AsistenciasController, PaymentController, EmployeeController, PaymentDetailController, UserController, AuthController, LecturasSueldosController, PayrollController, RolController, TarjaController};
+use App\Http\Controllers\{AsistenciasController, PaymentController, EmployeeController, PaymentDetailController, UserController, AuthController, LecturasSueldosController, ObservacionesController, PayrollController, RolController, TarjaController};
 use App\Services\LecturasSueldoService;
 
 /*
@@ -73,6 +73,11 @@ Route::group(['prefix' => 'asistencias'], function() {
 Route::group(['prefix' => 'lecturas-sueldos'], function() {
     Route::get('/', [LecturasSueldosController::class, 'get']);
     Route::get('/get-cantidad-por-dia', [LecturasSueldosController::class, 'getCantidadPorDia']);
+});
+
+Route::group(['prefix' => 'observaciones'], function() {
+    Route::get('/', [ObservacionesController::class, 'get'])->middleware('api.auth');
+    Route::post('/', [ObservacionesController::class, 'store'])->middleware('api.auth');
 });
 
 Route::group(['prefix' => 'companies'], function () {
