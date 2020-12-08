@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\ProcessStoreManyEmployees;
 use App\Models\Employee;
 use App\Repositories\EmployeeRepositoryInterface;
 use App\Services\AsistenciasService;
@@ -36,6 +37,15 @@ class EmployeeController extends Controller
     public function store(Request $request)
     {
         return $this->repository->create($request->all());
+    }
+
+    public function storeMany(Request $request)
+    {
+        $data = $request->get('data');
+        $result = ProcessStoreManyEmployees::dispatch($data);
+        return response()->json([
+            'message' => 'Proceso en cola'
+        ]);
     }
 
     public function getPayment(Employee $employee, Request $request)

@@ -9,7 +9,7 @@ class Employee extends Model
     public $incrementing = false;
     public $timestamps = false;
     protected $table = "trabajadores";
-    protected $fillable = ['id', 'nombre', 'apellido_paterno', 'apellido_materno',];
+    protected $fillable = ['id', 'nombre', 'apellido_paterno', 'apellido_materno', 'empresa_id',];
 
     public function users()
     {

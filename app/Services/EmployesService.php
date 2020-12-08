@@ -18,11 +18,10 @@ class EmployesService
         $this->asistenciasService = new AsistenciasService();
     }
 
-    public function storeMany(array $data)
+    public function storeMany(array $data, $nombre_tabla = 'trabajador_')
     {
         $counter = 0;
         foreach ($data as $row) {
-            $nombre_tabla = 'trabajador_';
             $trabajador = [
                 'id'               => $row[$nombre_tabla . 'id'],
                 'nombre'           => $row[$nombre_tabla . 'nombre'],
@@ -31,7 +30,8 @@ class EmployesService
                 'jornal'           => $row[$nombre_tabla . 'jornal'],
                 'regimen_id'       => $row[$nombre_tabla . 'regimen_id'],
                 'oficio'           => $row[$nombre_tabla . 'oficio'],
-                'sueldo_bruto'     => $row[$nombre_tabla . 'sueldo_bruto']
+                'sueldo_bruto'     => $row[$nombre_tabla . 'sueldo_bruto'],
+                'empresa_id'       => $row[$nombre_tabla . 'empresa_id'] ?? null,
             ];
 
             $counter += DB::table('trabajadores')->updateOrInsert(['id' => $trabajador['id']], $trabajador);
