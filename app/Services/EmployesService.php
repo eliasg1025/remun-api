@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Employee;
 use App\Models\EntregaCanasta;
 use App\Models\Payment;
+use App\Models\User;
 use App\Utils\PaymentInfo;
 use Illuminate\Support\Facades\DB;
 
@@ -89,11 +90,26 @@ class EmployesService
             $employee->empresa;
         }
 
-        $entregaCanasta = EntregaCanasta::with('usuario.trabajador')
+        /* $entregaCanasta = EntregaCanasta::with('usuario.trabajador')
+            ->where('trabajador_id', $employee->id)
+            ->where('valida', true)
+            ->orderBy('created_at', 'DESC')
+            ->first(); */
+
+        $entregaCanasta = DB::table('entregas_canastas')
+            ->select(
+                'id',
+                'empresa_id',
+                'created_at',
+                'usuario_id',
+                'trabajador_id',
+            )
             ->where('trabajador_id', $employee->id)
             ->where('valida', true)
             ->orderBy('created_at', 'DESC')
             ->first();
+        
+        $entregaCanasta->usuario = User::with('trabajador')->where('id', $entregaCanasta->usuario_id)->first();
 
         $employee->entrega_canasta = $entregaCanasta;
 
