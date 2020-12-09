@@ -79,8 +79,12 @@ class EmployeeController extends Controller
 
         $employee = $this->employeeService->getUltimaEntregaCanasta($employee);
 
+        $message = is_null($employee->entrega_canasta)
+            ? 'Trabajador obtenido'
+            : 'Ya se entregó canasta';
+
         return response()->json([
-            'message' => 'Trabajador obtenido',
+            'message' => $message,
             'data' => $employee
         ]);
     }
