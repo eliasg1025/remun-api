@@ -90,13 +90,13 @@ class EmployesService
             $employee->empresa;
         }
 
-        $entregaCanasta = EntregaCanasta::with('usuario.trabajador')
+        /* $entregaCanasta = EntregaCanasta::with('usuario.trabajador')
             ->where('trabajador_id', $employee->id)
             ->where('valida', true)
             ->orderBy('created_at', 'DESC')
-            ->first();
+            ->first(); */
 
-        /* $entregaCanasta = DB::table('entregas_canastas')
+        $entregaCanasta = DB::table('entregas_canastas')
             ->select(
                 'id',
                 'empresa_id',
@@ -111,7 +111,7 @@ class EmployesService
         
         if ($entregaCanasta) {
             $entregaCanasta->usuario = User::with('trabajador')->where('id', $entregaCanasta->usuario_id)->first();
-        } */
+        }
 
         $employee->entrega_canasta = $entregaCanasta;
 
