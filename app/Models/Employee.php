@@ -30,4 +30,14 @@ class Employee extends Model
     {
         return $this->belongsTo(Regimen::class, 'regimen_id', 'id');
     }
+
+    public function entregasCanastas()
+    {
+        return $this->hasMany(EntregaCanasta::class, 'trabajador_id', 'id');
+    }
+
+    public function empresa()
+    {
+        return $this->belongsTo(Company::class, 'empresa_id', 'id');
+    }
 }

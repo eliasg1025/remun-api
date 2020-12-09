@@ -40,6 +40,11 @@ class User extends Model
         return $this->belongsTo(Employee::class, 'trabajador_id', 'id');
     }
 
+    public function trabajador()
+    {
+        return $this->belongsTo(Employee::class, 'trabajador_id', 'id');
+    }
+
     public static function login($data)
     {
         $username = $data['username'];

@@ -57,8 +57,8 @@ class EmployeeController extends Controller
         $empresaId  = $request->query('empresaId') ?? 0;
         $paymentInfo    = new PaymentInfo($employee, $periodo, $tipoPagoId, $empresaId);
 
-        $employee       = $this->employeeService->getPayment($paymentInfo);
-        $existTwoPayments = $this->employeeService->existTwoPayments($paymentInfo);
+        $employee           = $this->employeeService->getPayment($paymentInfo);
+        $existTwoPayments   = $this->employeeService->existTwoPayments($paymentInfo);
 
         if ($employee->sueldo_bruto >= 2000 && $usuario->rol->id !== 4) {
             return response()->json(['message' => 'Trabajador restringido'], 401);
@@ -71,6 +71,18 @@ class EmployeeController extends Controller
             'show_message'  => $existTwoPayments,
             'data'          => $employee
         ];
+    }
+
+    public function getEntregasCanastas(Employee $employee, Request $request)
+    {
+        $usuario = $request->get('user');
+
+        $employee = $this->employeeService->getUltimaEntregaCanasta($employee);
+
+        return response()->json([
+            'message' => 'Trabajador obtenido',
+            'data' => $employee
+        ]);
     }
 
     public function info(Request $request)

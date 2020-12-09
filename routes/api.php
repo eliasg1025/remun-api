@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\{AsistenciasController, PaymentController, EmployeeController, PaymentDetailController, UserController, AuthController, LecturasSueldosController, ObservacionesController, PayrollController, RolController, TarjaController};
+use App\Http\Controllers\{AsistenciasController, PaymentController, EmployeeController, PaymentDetailController, UserController, AuthController, EntregasCanastasController, LecturasSueldosController, ObservacionesController, PayrollController, RolController, TarjaController};
 use App\Services\LecturasSueldoService;
 
 /*
@@ -32,6 +32,7 @@ Route::group(['prefix' => 'roles'], function() {
 
 Route::group(['prefix' => 'payroll'], function() {
     Route::get('/employee/{trabajadorId}', [PayrollController::class, 'getByEmployee']);
+    Route::get('/periods', [PayrollController::class, 'getPeriods']);
 });
 
 Route::group(['prefix' => 'payments'], function() {
@@ -46,6 +47,7 @@ Route::group(['prefix' => 'employees'], function () {
     Route::get('/me', [EmployeeController::class, 'info'])->middleware('api.auth');
     Route::get('/{id}', [EmployeeController::class, 'show'])->where('id', '[0-9]+')->middleware('api.auth');
     Route::get('/{employee}/payment', [EmployeeController::class, 'getPayment'])->middleware('api.auth');
+    Route::get('/{employee}/entregas-canastas', [EmployeeController::class, 'getEntregasCanastas'])->middleware('api.auth');
     Route::post('/', [EmployeeController::class, 'store']);
     Route::post('/many', [EmployeeController::class, 'storeMany']);
     Route::post('/import', [EmployeeController::class, 'import']);
@@ -81,7 +83,11 @@ Route::group(['prefix' => 'observaciones'], function() {
     Route::post('/', [ObservacionesController::class, 'store'])->middleware('api.auth');
 });
 
-Route::group(['prefix' => 'companies'], function () {
-
+Route::group(['prefix' => 'entregas-canastas'], function() {
+    Route::post('/', [EntregasCanastasController::class, 'store'])->middleware('api.auth');
 });
+
+/* Route::group(['prefix' => 'companies'], function () {
+
+}); */
 

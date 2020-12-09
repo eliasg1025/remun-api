@@ -22,4 +22,12 @@ class PayrollController extends Controller
             'data' => $this->paymentService->getByEmployee($trabajadorId)
         ]);
     }
+
+    public function getPeriods(Request $request)
+    {
+        return response()->json([
+            'message' => 'Periodos obtenidos',
+            'data' => $this->paymentService->getPeriods(),
+        ]);
+    }
 }

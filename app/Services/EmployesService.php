@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Employee;
+use App\Models\EntregaCanasta;
 use App\Models\Payment;
 use App\Utils\PaymentInfo;
 use Illuminate\Support\Facades\DB;
@@ -80,5 +81,22 @@ class EmployesService
         $countPayments = Payment::where($query)->count();
 
         return $countPayments >= 2;
+    }
+
+    public function getUltimaEntregaCanasta(Employee $employee): Employee
+    {
+        if ($employee->empresa_id) {
+            $employee->empresa;
+        }
+
+        $entregaCanasta = EntregaCanasta::with('usuario.trabajador')
+            ->where('trabajador_id', $employee->id)
+            ->where('valida', true)
+            ->orderBy('created_at', 'DESC')
+            ->first();
+
+        $employee->entrega_canasta = $entregaCanasta;
+
+        return $employee;
     }
 }

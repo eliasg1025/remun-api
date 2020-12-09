@@ -36,4 +36,20 @@ class PayrollService
 
         return $planillas;
     }
+
+    public function getPeriods()
+    {
+        return DB::table('pagos')
+            ->select(
+                'mes',
+                'anio',
+                DB::raw('COUNT(*) as cantidad_planillas')
+            )
+            ->groupBy('mes')
+            ->groupBy('anio')
+            ->orderBy('anio', 'DESC')
+            ->orderBy('mes', 'DESC')
+            ->get();
+            
+    }
 }
