@@ -64,7 +64,7 @@ class EmployeeController extends Controller
             return response()->json(['message' => 'Trabajador restringido'], 401);
         }
 
-        $this->lecturasService->store($periodo, $tipoPagoId, $usuario->sub, $employee->payment->id);
+        //$this->lecturasService->store($periodo, $tipoPagoId, $usuario->sub, $employee->payment->id);
 
         return [
             'message'       => $existTwoPayments ? 'Existe dos pagos del trabajador para el periodo ' . $periodo->format('m/Y') : 'Pago encontrado',

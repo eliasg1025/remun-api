@@ -32,7 +32,7 @@ class ProcessStoreManyPayments implements ShouldQueue
      */
     public function handle(EmployesService $employeeService, PaymentService $paymentService)
     {
-        $employeeService->storeMany($this->data);
+        $employeeService->storeMany($this->data['data']);
         $paymentService->storeMany($this->data);
     }
 }

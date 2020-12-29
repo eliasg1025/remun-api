@@ -9,13 +9,14 @@ class PayrollService
 {
     public function getByEmployee(string $trabajadorId)
     {
-        $pagos = DB::table('pagos')
+        $pagos = DB::table('pagos as pa')
             ->select(
-                'mes',
-                'anio',
-                'empresa_id',
-                'tipo_pago_id'
+                'pl.mes',
+                'pl.anio',
+                'pl.empresa_id',
+                'pl.tipo_pago_id'
             )
+            ->join('planillas as pl', 'pl.id', '=', 'pa.planilla_id')
             ->where([
                 'trabajador_id' => $trabajadorId
             ])->get();
@@ -39,17 +40,17 @@ class PayrollService
 
     public function getPeriods()
     {
-        return DB::table('pagos')
+        return DB::table('planillas as pl')
             ->select(
-                'mes',
-                'anio',
+                'pl.mes',
+                'pl.anio',
                 DB::raw('COUNT(*) as cantidad_planillas')
             )
+            ->join('pagos as pa', 'pa.planilla_id', '=', 'pl.id')
             ->groupBy('mes')
             ->groupBy('anio')
             ->orderBy('anio', 'DESC')
             ->orderBy('mes', 'DESC')
             ->get();
-            
     }
 }

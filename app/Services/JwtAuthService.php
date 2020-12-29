@@ -7,6 +7,7 @@ use App\Models\Rol;
 use App\Models\Trabajador;
 use Firebase\JWT\JWT;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 
 class JwtAuthService
 {
@@ -30,6 +31,21 @@ class JwtAuthService
                 ->first();
 
         $rol = Rol::where('id', $usuario->rol_id)->first();
+
+        /* $admUsuarioRoles = DB::table('adm_usuario_roles')
+            ->where('usuario_id', 6)
+            ->get();
+
+        $admUsuarioRoles->transform(function ($item) {
+            $item->modulo = DB::table('adm_modulos')->where('id', $item->modulo_id)->first();
+
+            $item->rol = DB::table('adm_roles')->where([
+                'id' => $item->rol_id,
+                'modulo_id' => $item->modulo_id
+            ])->first();
+
+            return $item;
+        }); */
 
         $token = [
             'sub'        => $usuario->id,

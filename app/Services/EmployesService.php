@@ -43,22 +43,24 @@ class EmployesService
 
     public function getPayment(PaymentInfo $paymentInfo):? Employee
     {
+        // dd($paymentInfo->getPayroll());
         $query = [
             'trabajador_id' => $paymentInfo->getEmployee()->id,
-            'mes'           => $paymentInfo->getMonth(),
-            'anio'          => $paymentInfo->getYear(),
-            'tipo_pago_id'  => $paymentInfo->getTypePaymentId()
+            'planilla_id' => $paymentInfo->getPayroll()->id,
         ];
 
-        if ($paymentInfo->getEmpresaId() !== 0) {
+        /* if ($paymentInfo->getEmpresaId() !== 0) {
             $query['empresa_id'] = $paymentInfo->getEmpresaId();
-        }
+        } */
 
-        $payment = Payment::where($query)->orderBy('id', 'DESC')->firstOrFail();
-        $paymentInfo->setEmpresaId($payment->empresa_id);
-        $payment->typePayment;
+        $payment = Payment::where($query)->firstOrFail();
+        $paymentInfo->setEmpresaId($paymentInfo->getPayroll()->empresa_id);
+        $payment->mes = $paymentInfo->getMonth();
+        $payment->anio = $paymentInfo->getYear();
+        $payment->type_payment = $paymentInfo->getPayroll()->tipoPago;
+        $payment->company = $paymentInfo->getPayroll()->empresa;
         $payment->details;
-        $payment->company;
+
         $employee = $paymentInfo->getEmployee();
 
         $employee->payment = $payment;
@@ -74,9 +76,7 @@ class EmployesService
     {
         $query = [
             'trabajador_id' => $paymentInfo->getEmployee()->id,
-            'mes'           => $paymentInfo->getMonth(),
-            'anio'          => $paymentInfo->getYear(),
-            'tipo_pago_id'  => $paymentInfo->getTypePaymentId()
+            'planilla_id' => $paymentInfo->getPayroll()->id,
         ];
 
         $countPayments = Payment::where($query)->count();
@@ -108,7 +108,7 @@ class EmployesService
             ->where('valida', true)
             ->orderBy('created_at', 'DESC')
             ->first();
-        
+
         if ($entregaCanasta) {
             $entregaCanasta->usuario = User::with('trabajador')->where('id', $entregaCanasta->usuario_id)->first();
         }

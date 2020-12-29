@@ -3,6 +3,7 @@
 namespace App\Utils;
 
 use App\Models\Employee;
+use App\Models\Payroll;
 use Carbon\Carbon;
 
 class PaymentInfo
@@ -53,5 +54,16 @@ class PaymentInfo
     public function setEmpresaId(int $empresaId)
     {
         $this->empresaId = $empresaId;
+    }
+
+    public function getPayroll():? Payroll
+    {
+        $payroll = Payroll::where([
+            'mes' => $this->getMonth(),
+            'anio' => $this->getYear(),
+            'tipo_pago_id' => $this->getTypePaymentId()
+        ])->firstOrFail();
+
+        return $payroll;
     }
 }

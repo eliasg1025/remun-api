@@ -34,7 +34,7 @@ class PaymentDetailController extends Controller
 
     public function storeMany (Request $request)
     {
-        $data = $request->get('data');
+        $data = $request->all();
         $result = ProcessStoreManyDetailPayments::dispatch($data);
         return response()->json([
             'message' => 'Proceso en cola'
