@@ -19,10 +19,10 @@ class PaymentService
     public function storeMany(array $data)
     {
         $planilla = Payroll::where([
-            'empresa_id' => $data['empresaId'],
-            'tipo_pago_id' => $data['tipoPago'] === 'ANTICIPO' ? 2 : 1,
-            'mes' => $data['mes'],
-            'anio' => $data['anio']
+            'empresa_id'    => $data['empresaId'],
+            'tipo_pago_id'  => $data['tipoPago'] === 'ANTICIPO' ? 2 : 1,
+            'mes'           => $data['mes'],
+            'anio'          => $data['anio']
         ])->first();
 
         $counter = 0;

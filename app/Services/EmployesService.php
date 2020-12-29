@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Employee;
 use App\Models\EntregaCanasta;
 use App\Models\Payment;
+use App\Models\PaymentDetail;
 use App\Models\User;
 use App\Utils\PaymentInfo;
 use Illuminate\Support\Facades\DB;
@@ -46,7 +47,7 @@ class EmployesService
         // dd($paymentInfo->getPayroll());
         $query = [
             'trabajador_id' => $paymentInfo->getEmployee()->id,
-            'planilla_id' => $paymentInfo->getPayroll()->id,
+            'planilla_id'   => $paymentInfo->getPayroll()->id,
         ];
 
         /* if ($paymentInfo->getEmpresaId() !== 0) {
@@ -59,7 +60,10 @@ class EmployesService
         $payment->anio = $paymentInfo->getYear();
         $payment->type_payment = $paymentInfo->getPayroll()->tipoPago;
         $payment->company = $paymentInfo->getPayroll()->empresa;
-        $payment->details;
+        $payment->details = PaymentDetail::where([
+            'planilla_id'   => $paymentInfo->getPayroll()->id,
+            'trabajador_id' => $paymentInfo->getEmployee()->id
+        ])->get();
 
         $employee = $paymentInfo->getEmployee();
 
