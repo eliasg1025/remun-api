@@ -7,6 +7,27 @@ use Illuminate\Support\Facades\DB;
 
 class PayrollService
 {
+    public function findOrCreate($empresaId, $tipoPagoId, $mes, $anio)
+    {
+        $planilla = Payroll::where([
+            'empresa_id'    => $empresaId,
+            'tipo_pago_id'  => $tipoPagoId,
+            'mes'           => $mes,
+            'anio'          => $anio,
+        ])->first();
+
+        if (!$planilla) {
+            $planilla = new Payroll();
+            $planilla->empresa_id = $empresaId;
+            $planilla->tipo_pago_id = $tipoPagoId;
+            $planilla->mes = $mes;
+            $planilla->anio = $anio;
+            $planilla->save();
+        }
+
+        return $planilla;
+    }
+
     public function getByEmployee(string $trabajadorId)
     {
         $pagos = DB::table('pagos as pa')

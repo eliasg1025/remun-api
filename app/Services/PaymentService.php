@@ -10,20 +10,17 @@ use Illuminate\Support\Facades\DB;
 class PaymentService
 {
     /* public PaymentRepositoryInterface $repository; */
+    private PayrollService $payrollService;
 
     public function __construct(/* $repository */)
     {
         /* $this->repository = $repository; */
+        $this->payrollService = new PayrollService();
     }
 
     public function storeMany(array $data)
     {
-        $planilla = Payroll::where([
-            'empresa_id'    => $data['empresaId'],
-            'tipo_pago_id'  => $data['tipoPago'] === 'ANTICIPO' ? 2 : 1,
-            'mes'           => $data['mes'],
-            'anio'          => $data['anio']
-        ])->first();
+        $planilla = $this->payrollService->findOrCreate($data['empresaId'], $data['tipoPago'] === 'ANTICIPO' ? 2 : 1, $data['mes'], $data['anio']);
 
         $counter = 0;
         foreach ($data['data'] as $row) {
