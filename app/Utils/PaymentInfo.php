@@ -56,7 +56,7 @@ class PaymentInfo
         $this->empresaId = $empresaId;
     }
 
-    public function getPayroll():? Payroll
+    public function getPayroll()
     {
         $payroll = Payroll::where([
             'mes' => $this->getMonth(),
@@ -67,7 +67,7 @@ class PaymentInfo
         return $payroll;
     }
 
-    public function getOtherPayroll($empresaId):? Payroll
+    public function getOtherPayroll($empresaId)
     {
         $payroll = Payroll::where([
             'mes' => $this->getMonth(),
