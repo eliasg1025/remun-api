@@ -58,11 +58,15 @@ class EmployesService
         $payment = Payment::where($query)->first();
 
         if (!$payment) {
-            $empresa_id = $payroll->empresa_id == 9 ? 14 : 9;
+            /* $empresa_id = $payroll->empresa_id == 9 ? 14 : 9;
             $payroll = $paymentInfo->getOtherPayroll($empresa_id);
             $payment = Payment::where([
                 'trabajador_id' => $paymentInfo->getEmployee()->id,
                 'planilla_id' => $payroll->id
+            ])->first(); */
+            $payment = Payment::where([
+                'trabajador_id' => $paymentInfo->getEmployee()->id,
+                'planilla_id'   => 5,
             ])->first();
         }
         $paymentInfo->setEmpresaId($paymentInfo->getPayroll()->empresa_id);
