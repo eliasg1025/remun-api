@@ -59,7 +59,7 @@ class EmployesService
 
         if (!$payment) {
             $empresa_id = $payroll->empresa_id;
-            $payroll = $paymentInfo->getPayroll($empresa_id === 9 ? 14 : 9);
+            $payroll = $paymentInfo->getOtherPayroll($empresa_id === 9 ? 14 : 9);
             $payment = Payment::where([
                 'trabajador_id' => $paymentInfo->getEmployee()->id,
                 'planilla_id' => $payroll->id
