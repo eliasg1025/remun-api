@@ -62,7 +62,7 @@ class PaymentInfo
             'mes' => $this->getMonth(),
             'anio' => $this->getYear(),
             'tipo_pago_id' => $this->getTypePaymentId()
-        ])->firstOrFail();
+        ])->first();
 
         return $payroll;
     }
