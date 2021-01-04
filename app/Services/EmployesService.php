@@ -73,7 +73,7 @@ class EmployesService
             ])->first();
             $payroll_id = 5;
         } else {
-            $payroll_id = $payroll->id
+            $payroll_id = $payroll->id;
         }
         $paymentInfo->setEmpresaId(Payroll::find($payroll_id)->empresa_id);
         $payment->mes = $paymentInfo->getMonth();
