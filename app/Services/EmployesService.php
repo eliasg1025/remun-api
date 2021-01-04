@@ -47,7 +47,6 @@ class EmployesService
         // dd($paymentInfo->getPayroll());
         $payroll = $paymentInfo->getPayroll();
 
-        dd($payroll);
         $query = [
             'trabajador_id' => $paymentInfo->getEmployee()->id,
             'planilla_id'   => $payroll->id,
