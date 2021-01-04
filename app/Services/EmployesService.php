@@ -52,6 +52,7 @@ class EmployesService
             'trabajador_id' => $paymentInfo->getEmployee()->id,
             'planilla_id'   => $payroll->id,
         ];
+        ;
 
         /* if ($paymentInfo->getEmpresaId() !== 0) {
             $query['empresa_id'] = $paymentInfo->getEmpresaId();
@@ -71,6 +72,8 @@ class EmployesService
                 'planilla_id'   => 5,
             ])->first();
             $payroll_id = 5;
+        } else {
+            $payroll_id = $payroll->id
         }
         $paymentInfo->setEmpresaId(Payroll::find($payroll_id)->empresa_id);
         $payment->mes = $paymentInfo->getMonth();
