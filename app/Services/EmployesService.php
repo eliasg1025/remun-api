@@ -72,11 +72,11 @@ class EmployesService
             ])->first();
             $payroll_id = 5;
         }
-        $paymentInfo->setEmpresaId($paymentInfo->getPayroll()->empresa_id);
+        $paymentInfo->setEmpresaId(Payroll::find($payroll_id)->empresa_id);
         $payment->mes = $paymentInfo->getMonth();
         $payment->anio = $paymentInfo->getYear();
         $payment->type_payment = Payroll::find($payroll_id)->tipoPago;
-        $payment->company = $paymentInfo->getPayroll()->empresa;
+        $payment->company = Payroll::find($payroll_id)->empresa;
         $payment->details = PaymentDetail::where([
             'planilla_id'   => $payroll_id,
             'trabajador_id' => $paymentInfo->getEmployee()->id
