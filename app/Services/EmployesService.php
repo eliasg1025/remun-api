@@ -45,16 +45,26 @@ class EmployesService
     public function getPayment(PaymentInfo $paymentInfo):? Employee
     {
         // dd($paymentInfo->getPayroll());
+        $payroll = $paymentInfo->getPayroll();
         $query = [
             'trabajador_id' => $paymentInfo->getEmployee()->id,
-            'planilla_id'   => $paymentInfo->getPayroll()->id,
+            'planilla_id'   => $payroll->id,
         ];
 
         /* if ($paymentInfo->getEmpresaId() !== 0) {
             $query['empresa_id'] = $paymentInfo->getEmpresaId();
         } */
 
-        $payment = Payment::where($query)->firstOrFail();
+        $payment = Payment::where($query)->first();
+
+        if (!$payment) {
+            $empresa_id = $payroll->empresa_id;
+            $payroll = $paymentInfo->getPayroll($empresa_id === 9 ? 14 : 9);
+            $payment = Payment::where([
+                'trabajador_id' => $paymentInfo->getEmployee()->id,
+                'planilla_id' => $payroll->id
+            ])->first();
+        }
         $paymentInfo->setEmpresaId($paymentInfo->getPayroll()->empresa_id);
         $payment->mes = $paymentInfo->getMonth();
         $payment->anio = $paymentInfo->getYear();

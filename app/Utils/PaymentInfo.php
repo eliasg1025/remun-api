@@ -66,4 +66,16 @@ class PaymentInfo
 
         return $payroll;
     }
+
+    public function getOtherPayroll($empresaId):? Payroll
+    {
+        $payroll = Payroll::where([
+            'mes' => $this->getMonth(),
+            'anio' => $this->getYear(),
+            'tipo_pago_id' => $this->getTypePaymentId(),
+            'empresa_id' => $empresaId
+        ])->firstOrFail();
+
+        return $payroll;
+    }
 }
