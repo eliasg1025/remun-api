@@ -38,9 +38,12 @@ class PayrollService
                 'pl.tipo_pago_id'
             )
             ->join('planillas as pl', 'pl.id', '=', 'pa.planilla_id')
-            ->where([
-                'trabajador_id' => $trabajadorId
-            ])->get();
+            ->where('trabajador_id', $trabajadorId)
+            ->orderBy('pl.anio', 'DESC')
+            ->orderBy('pl.mes', 'DESC')
+            ->orderBy('pl.tipo_pago_id', 'ASC')
+            ->orderBy('pl.empresa_id', 'ASC')
+            ->get();
 
         $planillas = [];
         foreach ($pagos as $pago) {
