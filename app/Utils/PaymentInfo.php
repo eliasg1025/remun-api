@@ -56,26 +56,26 @@ class PaymentInfo
         $this->empresaId = $empresaId;
     }
 
-    public function getPayroll()
-    {
-        $payroll = Payroll::where([
-            'mes' => $this->getMonth(),
-            'anio' => $this->getYear(),
-            'tipo_pago_id' => $this->getTypePaymentId()
-        ])->first();
-
-        return $payroll;
-    }
-
-    public function getOtherPayroll($empresaId)
+    public function getPayroll():? Payroll
     {
         $payroll = Payroll::where([
             'mes' => $this->getMonth(),
             'anio' => $this->getYear(),
             'tipo_pago_id' => $this->getTypePaymentId(),
-            'empresa_id' => $empresaId
+            'empresa_id' => $this->getEmpresaId()
         ])->firstOrFail();
 
         return $payroll;
+    }
+
+    public function getPayrolls()
+    {
+        $payrolls = Payroll::where([
+            'mes' => $this->getMonth(),
+            'anio' => $this->getYear(),
+            'tipo_pago_id' => $this->getTypePaymentId()
+        ])->get();
+
+        return $payrolls;
     }
 }

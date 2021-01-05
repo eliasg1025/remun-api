@@ -48,7 +48,7 @@ class AuthController extends Controller
             $item->modulo = DB::table('adm_modulos')->where('id', $item->modulo_id)->first();
 
             $item->rol = DB::table('adm_roles')->where([
-                'id' => $item->rol_id,
+                'id'        => $item->rol_id,
                 'modulo_id' => $item->modulo_id
             ])->first();
 
@@ -56,6 +56,7 @@ class AuthController extends Controller
         });
 
         return response()->json([
+            'message' => 'Data recuperada correctamente',
             'data' => $admUsuarioRoles
         ]);
     }

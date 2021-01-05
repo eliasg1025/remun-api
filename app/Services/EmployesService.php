@@ -9,6 +9,8 @@ use App\Models\PaymentDetail;
 use App\Models\Payroll;
 use App\Models\User;
 use App\Utils\PaymentInfo;
+use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\DB;
 
 class EmployesService
@@ -45,47 +47,37 @@ class EmployesService
 
     public function getPayment(PaymentInfo $paymentInfo):? Employee
     {
-        // dd($paymentInfo->getPayroll());
-        $payroll = $paymentInfo->getPayroll();
+        $payrolls = $paymentInfo->getPayrolls();
+        $employee = $paymentInfo->getEmployee();
 
-        $query = [
-            'trabajador_id' => $paymentInfo->getEmployee()->id,
-            'planilla_id'   => $payroll->id,
-        ];
-        ;
+        $payment = null;
+        foreach ($payrolls as $payroll) {
+            $query = [
+                'trabajador_id' => $employee->id,
+                'planilla_id'   => $payroll->id,
+            ];
 
-        /* if ($paymentInfo->getEmpresaId() !== 0) {
-            $query['empresa_id'] = $paymentInfo->getEmpresaId();
-        } */
-
-        $payment = Payment::where($query)->first();
-
-        if (!$payment) {
-            /* $empresa_id = $payroll->empresa_id == 9 ? 14 : 9;
-            $payroll = $paymentInfo->getOtherPayroll($empresa_id);
-            $payment = Payment::where([
-                'trabajador_id' => $paymentInfo->getEmployee()->id,
-                'planilla_id' => $payroll->id
-            ])->first(); */
-            $payment = Payment::where([
-                'trabajador_id' => $paymentInfo->getEmployee()->id,
-                'planilla_id'   => 5,
-            ])->first();
-            $payroll_id = 5;
-        } else {
-            $payroll_id = $payroll->id;
+            try {
+                $payment = Payment::where($query)->firstOrFail();
+                break;
+            } catch (\Exception $e) {
+                continue;
+            }
         }
-        $paymentInfo->setEmpresaId(Payroll::find($payroll_id)->empresa_id);
+
+        if (is_null($payment)) {
+            throw new ModelNotFoundException;
+        }
+
+        $paymentInfo->setEmpresaId($payroll->empresa_id);
         $payment->mes = $paymentInfo->getMonth();
         $payment->anio = $paymentInfo->getYear();
-        $payment->type_payment = Payroll::find($payroll_id)->tipoPago;
-        $payment->company = Payroll::find($payroll_id)->empresa;
+        $payment->type_payment = $payroll->tipoPago;
+        $payment->company = $payroll->empresa;
         $payment->details = PaymentDetail::where([
-            'planilla_id'   => $payroll_id,
-            'trabajador_id' => $paymentInfo->getEmployee()->id
+            'planilla_id'   => $payroll->id,
+            'trabajador_id' => $employee->id
         ])->get();
-
-        $employee = $paymentInfo->getEmployee();
 
         $employee->payment = $payment;
         $employee->regimen;
@@ -98,12 +90,14 @@ class EmployesService
 
     public function existTwoPayments(PaymentInfo $paymentInfo): bool
     {
-        $query = [
-            'trabajador_id' => $paymentInfo->getEmployee()->id,
-            'planilla_id' => $paymentInfo->getPayroll()->id,
-        ];
+        $trabajador = $paymentInfo->getEmployee();
+        $planillas = $paymentInfo->getPayrolls();
 
-        $countPayments = Payment::where($query)->count();
+        $planillasIds = array_column($planillas->toArray(), 'id');
+
+        $countPayments = Payment::where('trabajador_id', $trabajador->id)
+            ->whereIn('planilla_id', $planillasIds)
+            ->count();
 
         return $countPayments >= 2;
     }
