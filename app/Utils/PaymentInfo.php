@@ -74,7 +74,11 @@ class PaymentInfo
             'mes' => $this->getMonth(),
             'anio' => $this->getYear(),
             'tipo_pago_id' => $this->getTypePaymentId()
-        ])->get();
+        ])
+        ->when($this->getEmpresaId() !== 0, function($query) {
+            $query->where('empresa_id', $this->getEmpresaId());
+        })
+        ->get();
 
         return $payrolls;
     }
