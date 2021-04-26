@@ -114,17 +114,19 @@ class EmployesService
             ->orderBy('created_at', 'DESC')
             ->first(); */
 
-        $entregaCanasta = DB::table('entregas_canastas')
+        $entregaCanasta = DB::table('entregas_canastas as ec')
             ->select(
-                'id',
-                'empresa_id',
-                'created_at',
-                'usuario_id',
-                'trabajador_id',
+                'ec.id',
+                'ec.empresa_id',
+                'ec.created_at',
+                'ec.usuario_id',
+                'ec.trabajador_id',
             )
-            ->where('trabajador_id', $employee->id)
-            ->where('valida', true)
-            ->orderBy('created_at', 'DESC')
+            ->join('entrega as e', 'ec.entrega_id', 'e.id')
+            ->where('ec.trabajador_id', $employee->id)
+            ->where('ec.valida', true)
+            ->where('e.activo', true)
+            ->orderBy('ec.created_at', 'DESC')
             ->first();
 
         if ($entregaCanasta) {
