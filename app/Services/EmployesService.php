@@ -122,7 +122,7 @@ class EmployesService
                 'ec.usuario_id',
                 'ec.trabajador_id',
             )
-            ->join('entrega as e', 'ec.entrega_id', 'e.id')
+            ->join('entregas as e', 'ec.entrega_id', 'e.id')
             ->where('ec.trabajador_id', $employee->id)
             ->where('ec.valida', true)
             ->where('e.activo', true)
