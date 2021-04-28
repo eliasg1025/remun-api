@@ -85,6 +85,7 @@ Route::group(['prefix' => 'observaciones'], function() {
 });
 
 Route::group(['prefix' => 'entregas-canastas'], function() {
+    Route::get('/reporte', [EntregasCanastasController::class, 'reporte'])->middleware('api.auth');
     Route::post('/', [EntregasCanastasController::class, 'store'])->middleware('api.auth');
 });
 
