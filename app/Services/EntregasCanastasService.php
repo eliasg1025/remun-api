@@ -59,7 +59,7 @@ class EntregasCanastasService
                 SELECT ec.trabajador_id as trabajador_id, min(ec.id) as id FROM remun_api.entregas_canastas ec
                 inner join entregas e on e.id = ec.entrega_id
                 where e.activo = true
-                and ec.usuario_id in {$usuario->id}
+                and ec.usuario_id = {$usuario->id}
                 group by ec.trabajador_id
             ) as tmp
             inner join entregas_canastas ec on ec.id = tmp.id
