@@ -98,7 +98,7 @@ class EntregasCanastasService
         $usuarios = array_values(array_unique(array_column(json_decode(json_encode($rows), true), 'usuario')));
 
         // Cabeceras de Columnas
-        $columnas = ['Usuario', ...$fechas];
+        $columnas = ['Usuario', ...$fechas, 'Total'];
 
         // Filas
         $filas = array_map(function($usuario) use ($rows, $fechas) {
@@ -107,8 +107,7 @@ class EntregasCanastasService
                 $tmp = collect(array_values(array_filter($rows, fn($row) => $row->usuario === $usuario)));
 
                 $cantidad = $tmp->where('fecha', $fecha)->first();
-
-                return $cantidad ? $cantidad : [
+                return $cantidad ? json_decode(json_encode($cantidad), true) : [
                     'fecha'     => $fecha,
                     'cantidad'  => 0,
                 ];
@@ -117,6 +116,7 @@ class EntregasCanastasService
             return [
                 $usuario,
                 ...array_column($tmp, 'cantidad'),
+                array_reduce($tmp, fn($acc, $item) => $acc += $item['cantidad'], 0)
             ];
         }, $usuarios);
 
