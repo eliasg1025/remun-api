@@ -37,13 +37,7 @@ class EntregasCanastasController extends Controller
     {
         $usuario = User::find($request->get('user')->sub);
 
-        if ($usuario->rol->descripcion !== 'COORDINADOR' && $usuario->rol->descripcion !== 'ADMINISTRADOR') {
-            return response()->json([
-                'message'   => 'No tiene autorizacion',
-            ], 401);
-        }
-
-        $result = $this->entregasCanastasService->getReporte();
+        $result = $this->entregasCanastasService->getReporte($usuario);
 
         return response()->json([
             'message' => 'Data obtenida correctamente',

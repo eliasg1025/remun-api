@@ -43,11 +43,31 @@ class EntregasCanastasService
         }
     }
 
-    public function getReporte()
+    public function getReporte(User $usuario)
     {
         // Obtener la cantidad de canastas por dia
 
-        $sql = "
+        $sql = $usuario->rol->descripcion !== 'COORDINADOR' && $usuario->rol->descripcion !== 'ADMINISTRADOR' ? "
+            SELECT
+                ec.id,
+                tmp.trabajador_id as rut,
+                date(created_at) as fecha,
+                time(created_at) as hora,
+                CONCAT(t.apellido_paterno, ' ', t.apellido_materno, ' ', t.nombre) as trabajador,
+                CONCAT(t2.apellido_paterno, ' ', t2.apellido_materno, ' ', t2.nombre) as usuario
+            from (
+                SELECT ec.trabajador_id as trabajador_id, min(ec.id) as id FROM remun_api.entregas_canastas ec
+                inner join entregas e on e.id = ec.entrega_id
+                where e.activo = true
+                and ec.usuario_id in {$usuario->id}
+                group by ec.trabajador_id
+            ) as tmp
+            inner join entregas_canastas ec on ec.id = tmp.id
+            inner join trabajadores t on t.id = tmp.trabajador_id
+            inner join usuarios u on u.id = ec.usuario_id
+            inner join trabajadores t2 on t2.id = u.trabajador_id
+            ORDER by ec.id asc
+        " : "
             SELECT
                 ec.id,
                 tmp.trabajador_id as rut,
